@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" width="500" height="500">
+    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" width="500" height="600">
 
   <h3 align="center">Serverless Framework AWS Step Functions Progress Tracking</h3>
 
@@ -70,6 +70,6 @@
 7. Input the WSS: endpoint into the input box
 8. Click "Send Order" button to begin step function workflow
 
-[![Product Name Screen Shot][product-screenshot]](blog_frontend_overview.gif)
+[![Product Name Screen Shot][product-screenshot]](https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/blog_frontend_overview.gif?raw=true)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
