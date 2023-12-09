@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="https://github.com/HTLuff/moon-notes/blob/main/public/hero.png?raw=true" alt="Logo" width="200" height="200">
+    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" width="500" height="500">
 
   <h3 align="center">Serverless Framework AWS Step Functions Progress Tracking</h3>
 
