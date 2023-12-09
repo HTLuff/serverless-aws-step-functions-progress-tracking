@@ -1,11 +1,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" width="500" height="600">
-
-  <h3 align="center">Serverless Framework AWS Step Functions Progress Tracking</h3>
-
-  <p align="center">This project creates an AWS Step Functions, which mocks a mutli-step ordering process, and demonstrates how clients can monitor the progress via Amazon API Gateway Websocket. A Serverless Framework implementation of this [blog post](https://aws.amazon.com/blogs/compute/implementing-reactive-progress-tracking-for-aws-step-functions/) by Alexey Paramonov, Solutions Architect, ISV and Maximilian Schellhorn, Solutions Architect ISV</p>
+    <h1 align="center">Serverless Framework AWS Step Functions Progress Tracking</h1>
+    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" style="width: 100%" height="600">
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -31,7 +28,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Project Diagram]](diagram.png)
+<p align="left">This project creates an AWS Step Functions workflow, which mocks a mutli-step ordering process, and demonstrates how clients can monitor the progress via Amazon API Gateway Websocket. This project is a Serverless Framework implementation of [this blog post](https://aws.amazon.com/blogs/compute/implementing-reactive-progress-tracking-for-aws-step-functions/) by Alexey Paramonov, Solutions Architect, ISV and Maximilian Schellhorn, Solutions Architect ISV</p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -70,6 +67,6 @@
 7. Input the WSS: endpoint into the input box
 8. Click "Send Order" button to begin step function workflow
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/blog_frontend_overview.gif?raw=true)
+![Project Screengrab](https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/blog_frontend_overview.gif?raw=true)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
