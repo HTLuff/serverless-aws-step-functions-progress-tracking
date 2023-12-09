@@ -2,7 +2,7 @@
 <br />
 <div align="center">
     <h1 align="center">Serverless Framework AWS Step Functions Progress Tracking</h1>
-    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" style="width: 100%" height="400">
+    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" width="400" height="396">
 </div>
 
 <!-- TABLE OF CONTENTS -->
