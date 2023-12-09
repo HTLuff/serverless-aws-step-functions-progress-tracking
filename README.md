@@ -2,7 +2,7 @@
 <br />
 <div align="center">
     <h1 align="center">Serverless Framework AWS Step Functions Progress Tracking</h1>
-    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" style="width: 100%" height="600">
+    <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" style="width: 100%" height="400">
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -28,7 +28,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<p align="left">This project creates an AWS Step Functions workflow, which mocks a mutli-step ordering process, and demonstrates how clients can monitor the progress via Amazon API Gateway Websocket. This project is a Serverless Framework implementation of [this blog post](https://aws.amazon.com/blogs/compute/implementing-reactive-progress-tracking-for-aws-step-functions/) by Alexey Paramonov, Solutions Architect, ISV and Maximilian Schellhorn, Solutions Architect ISV</p>
+This project creates an AWS Step Functions workflow, which mocks a mutli-step ordering process, and demonstrates how clients can monitor the progress via Amazon API Gateway Websocket. This project is a Serverless Framework implementation of [this blog post](https://aws.amazon.com/blogs/compute/implementing-reactive-progress-tracking-for-aws-step-functions/) by Alexey Paramonov, Solutions Architect, ISV and Maximilian Schellhorn, Solutions Architect ISV.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
