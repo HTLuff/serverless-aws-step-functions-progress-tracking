@@ -1,0 +1,190 @@
+# serverless.yml
+
+service: serverless-aws-step-functions-progress-tracking #Rename your project here
+
+custom:
+  secrets: ${file(secrets.yml)}
+  REGION: ${self:custom.secrets.REGION}
+  AWS_ACCOUNT_ID: ${self:custom.secrets.AWS_ACCOUNT_ID}
+  CONNECTIONS_TABLE_NAME: ${self:custom.secrets.CONNECTIONS_TABLE_NAME}
+  STATE_MACHINE_ARN: ${self:custom.secrets.STATE_MACHINE_ARN}
+  STATE_MACHINE_NAME: ${self:custom.secrets.STATE_MACHINE_NAME}
+  WEBSOCKET_API_ENDPOINT: ${self:custom.secrets.WEBSOCKET_API_ENDPOINT}
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  logRetentionInDays: 3
+  stackName: ${self:provider.environment.CLOUDFORMATION_STACK}
+  region: ${self:provider.environment.REGION}
+  stage: ${self:provider.environment.DEPLOYMENT_STAGE}
+  environment:
+    AWS_ACCOUNT_ID: ${self:custom.AWS_ACCOUNT_ID}
+    CONNECTIONS_TABLE_NAME: ${self:custom.CONNECTIONS_TABLE_NAME}
+    STATE_MACHINE_ARN: ${self:custom.STATE_MACHINE_ARN}
+    STATE_MACHINE_NAME: ${self:custom.STATE_MACHINE_NAME}
+    WEBSOCKET_API_ENDPOINT: ${self:custom.WEBSOCKET_API_ENDPOINT} # this isn't known until deployment - use serverless ARN method
+  versionFunctions: false # Saves Serverless creating a new version of the function each time.
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:table/parceltracker-demo-connections"
+    - Effect: Allow
+      Action:
+        - states:StartExecution
+        - states:DescribeExecution
+        - states:StopExecution
+      Resource: "arn:aws:states:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:stateMachine:progressStateMachine"
+    - Effect: Allow
+      Action:
+        - execute-api:ManageConnections
+        - execute-api:Invoke
+      Resource: "arn:aws:execute-api:*:*:**/@connections/*"
+
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - !secrets.yml
+    - package.json
+    - package-lock.json
+
+plugins:
+  - serverless-step-functions
+  - serverless-iam-roles-per-function
+
+functions:
+  connectHandler:
+    handler: handler.connect
+    events:
+      - websocket:
+          route: $connect
+
+  disconnectHandler:
+    handler: handler.disconnect
+    events:
+      - websocket:
+          route: $disconnect
+
+  progressHandler:
+    handler: handler.progress
+    events:
+      - websocket:
+          route: progress
+
+  onOrderHandler:
+    handler: handler.onOrder
+    events:
+      - websocket:
+          route: onOrder
+
+  progressErrorHandler:
+    handler: handler.error
+
+stepFunctions:
+  stateMachines:
+    progressStateMachine:
+      name: progressStateMachine
+      definition:
+        Comment: "State machine for progress updates"
+        StartAt: Report25
+        States:
+          Report25:
+            Type: Task
+            Resource: arn:aws:lambda:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:function:${self:service}-dev-progressHandler
+            Parameters:
+              connectionId.$: "$.connectionId"
+              Message: "📋 Inventory check complete"
+              Progress: 25
+            ResultPath: "$.Params"
+            Catch:
+              - ErrorEquals: ["States.ALL"]
+                ResultPath: "$.Error"
+                Next: HandleError
+            Next: Wait2Seconds1
+
+          Wait2Seconds1:
+            Type: Wait
+            Seconds: 2
+            Next: Report50
+
+          Report50:
+            Type: Task
+            Resource: arn:aws:lambda:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:function:${self:service}-${self:provider.stage}-progressHandler
+            Parameters:
+              connectionId.$: "$.connectionId"
+              Message: "🏷 Postage label generated"
+              Progress: 50
+            ResultPath: "$.Params"
+            Catch:
+              - ErrorEquals: ["States.ALL"]
+                ResultPath: "$.Error"
+                Next: HandleError
+            Next: Wait2Seconds2
+
+          Wait2Seconds2:
+            Type: Wait
+            Seconds: 2
+            Next: Report75
+
+          Report75:
+            Type: Task
+            Resource: arn:aws:lambda:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:function:${self:service}-${self:provider.stage}-progressHandler
+            Parameters:
+              connectionId.$: "$.connectionId"
+              Message: "🚚 Moved to delivery"
+              Progress: 75
+            ResultPath: "$.Params"
+            Catch:
+              - ErrorEquals: ["States.ALL"]
+                ResultPath: "$.Error"
+                Next: HandleError
+            Next: Wait2Seconds3
+
+          Wait2Seconds3:
+            Type: Wait
+            Seconds: 2
+            Next: ReportComplete
+
+          ReportComplete:
+            Type: Task
+            Resource: arn:aws:lambda:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:function:${self:service}-${self:provider.stage}-progressHandler
+            Parameters:
+              connectionId.$: "$.connectionId"
+              Message: "🎯 Finished successfully"
+              Progress: 100
+            ResultPath: "$.Params"
+            Catch:
+              - ErrorEquals: ["States.ALL"]
+                ResultPath: "$.Error"
+                Next: HandleError
+            Next: DisconnectClient
+
+          DisconnectClient:
+            Type: Task
+            Resource: arn:aws:lambda:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:function:${self:service}-${self:provider.stage}-disconnectHandler
+            ResultPath: "$.DisconnectParams"
+            End: true
+
+          HandleError:
+            Type: Task
+            Resource: arn:aws:lambda:${self:provider.region}:${self:provider.environment.AWS_ACCOUNT_ID}}:function:${self:service}-${self:provider.stage}-progressErrorHandler
+            ResultPath: "$.Error"
+            End: true
+
+resources:
+  Resources:
+    ConnectionsTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      BillingMode: PAY_PER_REQUEST
+      TableName: ${self:provider.environment.CONNECTIONS_TABLE_NAME}

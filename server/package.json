@@ -1,0 +1,17 @@
+{
+  "name": "serverless-aws-step-functions-progress-tracking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "npx serverless deploy"
+  },
+  "keywords": [],
+  "author": "HTLuff",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1510.0",
+    "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-step-functions": "^3.17.0"
+  }
+}

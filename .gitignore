@@ -1,0 +1,3 @@
+/server/secrets.yml
+**/node_modules/**
+/server/.serverless
