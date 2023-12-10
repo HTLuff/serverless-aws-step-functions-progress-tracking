@@ -1,7 +1,7 @@
 {
   "name": "serverless-aws-step-functions-progress-tracking",
   "version": "1.0.0",
-  "description": "",
+  "description": "step function orchestration for reactive progress updates using web sockets",
   "main": "handler.js",
   "scripts": {
     "deploy": "npx serverless deploy"
