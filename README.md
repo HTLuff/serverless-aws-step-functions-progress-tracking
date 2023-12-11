@@ -3,7 +3,7 @@
 <div align="center">
     <h1 align="center">Serverless Framework AWS Step Functions Progress Tracking</h1>
     <img src="https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/diagram.png?raw=true" alt="Logo" width="400" height="396">
-    <p>This project creates an AWS Step Functions workflow, which mocks a mutli-step ordering process, and demonstrates how clients can monitor the progress via Amazon API Gateway Websocket. This project is a Serverless Framework implementation of <a target="_blank" href="https://aws.amazon.com/blogs/compute/implementing-reactive-progress-tracking-for-aws-step-functions/">this blog post</a> by Alexey Paramonov, Solutions Architect, ISV and Maximilian Schellhorn, Solutions Architect ISV.</p>
+    <p align="left">This project creates an AWS Step Functions workflow, which mocks a mutli-step ordering process, and demonstrates how clients can monitor the progress via Amazon API Gateway Websocket. This project is a Serverless Framework implementation of <a target="_blank" href="https://aws.amazon.com/blogs/compute/implementing-reactive-progress-tracking-for-aws-step-functions/">this blog post</a> by Alexey Paramonov, Solutions Architect, ISV and Maximilian Schellhorn, Solutions Architect ISV.</p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -62,11 +62,12 @@ Websites with long-running processes often don’t provide feedback to users, le
 1. Git clone into new folder
 2. Run `cd server`
 3. Run `npm install`
-4. Run `npm run deploy` or `serverless deploy` (this is currently configured to use `npx` in the package.json file)
-5. The WSS: endpoint will be outputted after the deployment script has finished, copy the endpoint.
-6. Run `cd ../client` and `npm run start`
-7. Paste the WSS: endpoint into the input box
-8. Click "Send Order" button to begin step function workflow
+4. Add your details to the secrets-template.yml file, and rename `secrets.yml`
+5. Run `npm run deploy` or `serverless deploy` (this is currently configured to use `npx` in the package.json file)
+6. The WSS: endpoint will be outputted after the deployment script has finished, copy the endpoint.
+7. Run `cd ../client` and `npm run start`
+8. Paste the WSS: endpoint into the input box
+9. Click "Send Order" button to begin step function workflow
 
 ![Project Screengrab](https://github.com/HTLuff/serverless-aws-step-functions-progress-tracking/blob/main/demo.gif?raw=true)
 

@@ -49,7 +49,7 @@ module.exports.disconnect = async (event) => {
       Key: { connectionId },
     })
     .promise();
-  // await disconnectClient(connectionId);
+  await disconnectClient(connectionId);
   return { statusCode: 200, body: "Disconnected." };
 };
 
